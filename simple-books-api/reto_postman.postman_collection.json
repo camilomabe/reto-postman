@@ -1,0 +1,1430 @@
+{
+	"info": {
+		"_postman_id": "7be77359-b08b-4d39-9a45-7dd4c3c88e9e",
+		"name": "reto_postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9059660"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"item": [
+				{
+					"name": "/status Ok",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"statusTests\"))();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var commonTests = () => {\r",
+									"\r",
+									"\tvar contentType = \"La etiqueta 'Content-Type' debe estar presente en el header \";\r",
+									"\tvar contentLength = \"La etiqueta 'Content-Length' debe estar presente en el header \";\r",
+									"\r",
+									"\tpm.test(contentType, function () {\r",
+									"\t\tpm.response.to.have.header(\"Content-Type\");\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(contentLength, function () {\r",
+									"\t\tpm.response.to.have.header(\"Content-Length\");\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"commonTests\", commonTests.toString());\r",
+									"\r",
+									"var statusTests = () => {\r",
+									"\t\t\r",
+									"    var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 500ms \";\r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"\t});\r",
+									"\t\r",
+									"    var codigoEstado =  \"EL codigo de estado debe ser 200 \";\r",
+									"\tpm.test(codigoEstado, function () {\r",
+									"\tpm.response.to.have.status(200);\r",
+									"\t});\r",
+									"\t\r",
+									"    var mensajeEstado =  \"El mensaje de estado debe ser 'status':'OK' \";\r",
+									"\tpm.test(mensajeEstado , function () {\r",
+									"\t\tpm.response.to.have.body('{\"status\":\"OK\"}');\r",
+									"\t});\r",
+									"\t\r",
+									"    var recursoGenerado = \"El recurso generado debe se 15 Bytes \";\r",
+									"\tpm.test(recursoGenerado, function () {\r",
+									"\t\tpm.expect(pm.response.responseSize).to.be.equal(15);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"statusTests\", statusTests.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{status}}",
+							"host": [
+								"{{urlBooks}}{{status}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/status Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"getStatusFailTest\"))();\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var getStatusFailTest = () => {\r",
+									"\t\r",
+									"\tvar tiempoMaximo = \"El tiempo de respuesta debe se menor a 100 ms. \";\r",
+									"\tvar contentType = \"La etiqueta 'Content-Type' debe estar presente en el header \";\r",
+									"\tvar contentLength = \"La etiqueta 'Content-Length' debe estar presente en el header \";\r",
+									"\tvar codigoEstado = \"El codigo de estado debe ser 200 \";\r",
+									"\tvar mensajeEstado = \"El mensaje generado debe ser 'OK' \";\r",
+									"\tvar recursoGenerado = \"El recurso generado debe se 15 Bytes \";\r",
+									"\t\r",
+									"\tpm.test(tiempoMaximo, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(contentType, function () {\r",
+									"\t\tpm.response.to.have.header(\"Content-Type_\");\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(contentLength, function () {\r",
+									"\t\tpm.response.to.have.header(\"Content-Length_\");\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(codigoEstado, function () {\r",
+									"\t\tpm.response.to.have.status(201);\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(mensajeEstado, function () {\r",
+									"\t\tpm.response.to.have.body('{\"status\":\"OK_\"}');\r",
+									"\t});\r",
+									"\t\r",
+									"\tpm.test(recursoGenerado, function () {\r",
+									"\t\tpm.expect(pm.response.responseSize).to.be.equal(16);\r",
+									"\t});\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"getStatusFailTest\", getStatusFailTest.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{status}}",
+							"host": [
+								"{{urlBooks}}{{status}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "/books Ok",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"commonBoockTests\"))();\r",
+									"\r",
+									"var recursoGenerado = \"El recurso generado debe se 417 Bytes \";\r",
+									"\r",
+									"pm.test(recursoGenerado, function () {\r",
+									"\tpm.expect(pm.response.responseSize).to.be.equal(417);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var commonBoockTests = () => {\r",
+									"\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"\t\r",
+									"\tlet i = 0;\r",
+									"\tlet enable = 0;\r",
+									"\tlet disable = 0;\r",
+									"\t\r",
+									"\twhile (i < jsonData.length) {\r",
+									"\t\tif(jsonData[i].available){\r",
+									"\t\t\tenable++;      \r",
+									"\t\t}else{\r",
+									"\t\t\tdisable++; \r",
+									"\t\t}\r",
+									"\t\ti++; \r",
+									"\t}\r",
+									"    console.log(\"Cantidad de libros existentes: \" + i);\r",
+									"    console.log(\"Lista de libros disponibles: \" + enable);\r",
+									"    console.log(\"Lista de libros no disponibles: \" + disable);\r",
+									"\r",
+									"\tvar tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 2000 ms \";\r",
+									"\tvar librosDisponibles =  \"Numero de libros disponibles = \";\r",
+									"\t\r",
+									"\tpm.test(librosDisponibles + jsonData.length, function () {\r",
+									"\t\tpm.expect(jsonData.length).to.be.equal(jsonData.length);\r",
+									"\t});\r",
+									"\r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"commonBoockTests\", commonBoockTests.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlBooks}}{{books}}",
+							"host": [
+								"{{urlBooks}}{{books}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/books Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"failBoockTests\"))();\r",
+									"\r",
+									"\r",
+									"var recursoGenerado = \"El recurso generado debe se 417 Bytes \";\r",
+									"\r",
+									"pm.test(recursoGenerado, function () {\r",
+									"\tpm.expect(pm.response.responseSize).to.be.equal(5000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var failBoockTests = () => {\r",
+									"\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"\r",
+									"\tvar tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 100 ms \";\r",
+									"\tvar librosDisponibles =  \"Numero de libros disponibles = \";\r",
+									"\tvar codigoEstado =  \"EL codigo de estado debe ser 200 \";\r",
+									"\r",
+									"    pm.test(codigoEstado, function () {\r",
+									"\tpm.response.to.have.status(500);\r",
+									"\t});\r",
+									"\r",
+									"\tpm.test(librosDisponibles + jsonData.length, function () {\r",
+									"\t\tpm.expect(jsonData.length).to.be.equal(1000);\r",
+									"\t});\r",
+									"\r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"failBoockTests\", failBoockTests.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlBooks}}{{books}}",
+							"host": [
+								"{{urlBooks}}{{books}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/books/2 Ok",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"getBoockById\"))();\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"   \r",
+									"    var id = jsonData.id;\r",
+									"    if(id == null){\r",
+									"        console.error(\"El id consultado no existe \" + id);\r",
+									"    }\r",
+									"    var name = jsonData.name;\r",
+									"    var author = jsonData.author;\r",
+									"    var type = jsonData.type;\r",
+									"    var price = jsonData.price;\r",
+									"    var stock = jsonData[\"current-stock\"];\r",
+									"    var status = jsonData.available;\r",
+									"\r",
+									"    var idConsulta = 2;\r",
+									"    var nombreLibro = \"Just as I Am\";\r",
+									"    var autor = \"Cicely Tyson\";\r",
+									"    var tipo = \"non-fiction\";\r",
+									"    var percio = 20.33;\r",
+									"    var estado = false;\r",
+									"    \r",
+									"\r",
+									"pm.test(\"El libro consultado no debe ser = \" + estado, function(){\r",
+									"    pm.expect(jsonData.available).to.equal(false);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El id consultado debe ser = \" + idConsulta, function() {\r",
+									"    pm.expect(jsonData.id).to.equal(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El nombre del libro consultado debe ser = \" + nombreLibro, function() {\r",
+									"    pm.expect(jsonData.name).to.equal(\"Just as I Am\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El nombre del autor del libro consultado debe ser = \" + autor, function() {\r",
+									"    pm.expect(jsonData.author).to.equal(\"Cicely Tyson\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El tipo de contenido del libro consultado debe ser = \" + tipo, function(){\r",
+									"    pm.expect(jsonData.type).to.equal(\"non-fiction\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El precio del libro consultado debe ser = \" + percio, function(){\r",
+									"    pm.expect(jsonData.price).to.equal(20.33);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var getBoockById = () => {\r",
+									"\r",
+									"\tvar recursoGenerado = \"El recurso generado debe se 125 Bytes \";\r",
+									"\t\r",
+									"\tpm.test(recursoGenerado, function () {\r",
+									"\t\tpm.expect(pm.response.responseSize).to.be.equal(125);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"getBoockById\", getBoockById.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{books}}{{boockById}}",
+							"host": [
+								"{{urlBooks}}{{books}}{{boockById}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/books/2 Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"getBoockById\"))();\r",
+									"\r",
+									"var codigoEstado =  \"EL codigo de estado debe ser 200 \";\r",
+									"pm.test(codigoEstado, function () {\r",
+									"\tpm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"   \r",
+									"    var id = jsonData.id;\r",
+									"    if(id == null){\r",
+									"        console.error(\"El id consultado no existe \" + id);\r",
+									"    }\r",
+									"    var name = jsonData.name;\r",
+									"    var author = jsonData.author;\r",
+									"    var type = jsonData.type;\r",
+									"    var price = jsonData.price;\r",
+									"    var stock = jsonData[\"current-stock\"];\r",
+									"    var status = jsonData.available;\r",
+									"\r",
+									"    var idConsulta = 2;\r",
+									"    var nombreLibro = \"Just as I Am\";\r",
+									"    var autor = \"Cicely Tyson\";\r",
+									"    var tipo = \"non-fiction\";\r",
+									"    var percio = 20.33;\r",
+									"    var estado = false;\r",
+									"    \r",
+									"\r",
+									"pm.test(\"El libro consultado no debe ser = \" + estado, function(){\r",
+									"    pm.expect(jsonData.available).to.equal(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El id consultado debe ser = \" + idConsulta, function() {\r",
+									"    pm.expect(jsonData.id).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El nombre del libro consultado debe ser = \" + nombreLibro, function() {\r",
+									"    pm.expect(jsonData.name).to.equal(\"Just as I Am x\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El nombre del autor del libro consultado debe ser = \" + autor, function() {\r",
+									"    pm.expect(jsonData.author).to.equal(\"Cicely Tyson x\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El tipo de contenido del libro consultado debe ser = \" + tipo, function(){\r",
+									"    pm.expect(jsonData.type).to.equal(\"non-fiction x\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"El precio del libro consultado debe ser = \" + percio, function(){\r",
+									"    pm.expect(jsonData.price).to.equal(20.36);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var getBoockById = () => {\r",
+									"\r",
+									"\tvar recursoGenerado = \"El recurso generado debe se 125 Bytes \";\r",
+									"\t\r",
+									"\tpm.test(recursoGenerado, function () {\r",
+									"\t\tpm.expect(pm.response.responseSize).to.be.equal(300);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"getBoockById\", getBoockById.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{books}}{{boockById}}",
+							"host": [
+								"{{urlBooks}}{{books}}{{boockById}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ApiClient",
+			"item": [
+				{
+					"name": "Creatre Cliente Ok",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"apiClientTests\"))();\r",
+									"  \r",
+									"var registroExitoso = \"Registo exitoso, status code 201, su token es: \";\r",
+									"var fotmatoIncorrecto = \"Los parametros en el cuerpo son incorrectos, verifica lo parametros de creacion, Status code 400 \";\r",
+									"var formatoCorreoNoValido = \"Invalid or missing client email.\";\r",
+									"var usuarioYaEstaRegistrado = \"El usuario ya esta registrado, intenta con otro correo, status code 409 \";\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"var respuesta = \"\";\r",
+									"if(jsonData.accessToken){\r",
+									"    respuesta = jsonData.accessToken;\r",
+									"    tests[registroExitoso + respuesta] = pm.response.to.have.status(201);\r",
+									"    console.log(\"Token \" + registroExitoso +  respuesta);\r",
+									"}else if(jsonData.error == formatoCorreoNoValido){\r",
+									"    respuesta = jsonData.error;\r",
+									"    tests[fotmatoIncorrecto] = pm.response.to.have.status(400);\r",
+									"    console.log(\"Incorrecto \" + fotmatoIncorrecto +  respuesta);\r",
+									"}else{\r",
+									"    respuesta = jsonData.error;\r",
+									"    tests[usuarioYaEstaRegistrado] = pm.response.to.have.status(409);\r",
+									"    console.log(\"Error \" + usuarioYaEstaRegistrado +  respuesta);\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"respuestaRegistrarUsusario\", respuesta);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"///Bebe modificar la barable 'clientEmail' en el cuerpo del apeticion \r",
+									"\r",
+									"/*\r",
+									"Error el el cuerpo del recurso 'clientEmail' formato del correo incorrecto, codogo de respuesta 400\r",
+									"{\r",
+									"   \"clientName\": \"Postman\",\r",
+									"   \"clientEmail\": \"example1_8@gmail\"\r",
+									"}\r",
+									"\r",
+									"El usuario ya se encuentra registrado codigo de respuesta 409\r",
+									"{\r",
+									"   \"clientName\": \"Postman\",\r",
+									"   \"clientEmail\": \"example1_8@gmail.com\"\r",
+									"}\r",
+									"\r",
+									"Registro exitoso codigo de respuesta 201 \r",
+									"{\r",
+									"   \"clientName\": \"Postman\",\r",
+									"   \"clientEmail\": \"example1_8@gmail.com\"\r",
+									"}\r",
+									"\r",
+									"*/\r",
+									"\r",
+									"\r",
+									"var apiClientTests = () => {\r",
+									"    var email = \"correog\"+ pm.variables.replaceIn('{{$randomFirstName}}') + pm.variables.replaceIn('{{$randomInt}}') + \"@gmail.com\";\r",
+									"    pm.environment.set(\"correoElectronico\", email);\r",
+									"\r",
+									"\r",
+									"    var size = 0;\r",
+									"    var statusCode = 0;\r",
+									"\r",
+									"\tsize = pm.response.responseSize;\r",
+									"\tstatusCode = pm.response.code;\r",
+									"\r",
+									"\tvar statusSizeCreatedUser = \"Usuario registrado correctamente: Size == 82 => \" +  size + \", Status code = 201 => \" + statusCode;\r",
+									"\tvar statusSizeCreatedUserYet = \"El usuario ya esta registrado, intenta con uno nuevo: Size == 65 => \" +  size + \", Status code = 409 => \" + statusCode;\r",
+									"\tvar statusSizeWrongBody = \"El cuerpo del recurso esta construido incorrectamente: Size == 44 => \" +  size + \", Status code = 400 => \" + statusCode;\r",
+									"\tvar defaultMessage = \"Revisa la aplicacion puede contener errores en la contruccion \" +  size + \" \" + statusCode;\r",
+									"\tvar tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 1500ms\";\r",
+									"\tvar registroExitoso =  \"Registro exitoso , el tamaño del archivo generado debe ser = a 82 Bytes \";\r",
+									"\tvar usuarioYaRegistrado = \"El usuario ya esta registrado, el tamaño del archivo generado debe ser = a 65 Bytes \";\r",
+									"\tvar errorDelRecurso = \"Hay un error el la sintaxis del recurso, el tamaño del archivo generado debe ser = a 44 Bytes \";\r",
+									"\r",
+									"\t\r",
+									"\tswitch(size, statusCode) {\r",
+									"        case 82, 201:\r",
+									"\t\t\tconsole.log(statusSizeCreatedUser);\r",
+									"\t\t\tbreak;\r",
+									"        case 65, 409:\r",
+									"\t\t\tconsole.warn(statusSizeCreatedUserYet);\r",
+									"\t\t\tbreak;\r",
+									"\t\tcase 44, 400:\r",
+									"\t\t\tconsole.error(statusSizeWrongBody);\r",
+									"\t\t\tbreak;\r",
+									"\t\tdefault:\r",
+									"\t\t\tconsole.error(defaultMessage);\r",
+									"\t}\r",
+									"\r",
+									"pm.test(tiempoMaximodeEspera, function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+									"});\r",
+									"\r",
+									"if(size==82){\r",
+									"    pm.test(registroExitoso, function () {\r",
+									"        pm.expect(pm.response.responseSize).to.be.equal(82);\r",
+									"    });\r",
+									"}else if(size==65){\r",
+									"    pm.test(usuarioYaRegistrado, function () {\r",
+									"        pm.expect(pm.response.responseSize).to.be.equal(65);\r",
+									"    }); \r",
+									"}else{\r",
+									"    pm.test(errorDelRecurso, function () {\r",
+									"        pm.expect(pm.response.responseSize).to.be.equal(44);\r",
+									"    });\r",
+									"}\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"apiClientTests\", apiClientTests.toString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User",
+								"value": "",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"clientName\": \"Postman\",\r\n   \"clientEmail\": \"{{correoElectronico}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{apiClient}}",
+							"host": [
+								"{{urlBooks}}{{apiClient}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cliente Fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"apiFailClientTests\"))();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var apiFailClientTests = () => {\r",
+									"\r",
+									"pm.test(\"CLiente response Body must be 65 Bytes \", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.equal(30);\r",
+									"});\r",
+									"pm.test(\"CLiente response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type_\");\r",
+									"});\r",
+									"pm.test(\"Content-Length is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Length_\");\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"apiFailClientTests\", apiFailClientTests.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User",
+								"value": "",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"clientName\": \"Postman\",\r\n   \"clientEmail\": \"example0_1y@gmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{apiClient}}",
+							"host": [
+								"{{urlBooks}}{{apiClient}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "POST/orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"ordersTest\"))();\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.variables.set(\"idOrden\", jsonData.orderId);\r",
+									"pm.environment.get(\"idOrden\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var ordersTest = () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    var ordenCreada = \"La orden fue creada correctamente = \";\r",
+									"    var ordenNoGenerada = \"La orden no fur creada \";\r",
+									"    var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 3000 ms \";\r",
+									"    var codigoEstado =  \"EL codigo de estado debe ser 201 \";\r",
+									"    var codigoEstado = \"El codigo de estado no es el esperado \";\r",
+									"\r",
+									"\tif(jsonData.created){\r",
+									"\t\tpm.test(ordenCreada + jsonData.created, function(){\r",
+									"\t\t\tpm.expect(jsonData.created).to.equal(true);\r",
+									"\t\t});\r",
+									"\t}else{\r",
+									"\t\tpm.test(ordenNoGenerada + jsonData.created, function(){\r",
+									"\t\t\tpm.expect(jsonData.created).to.equal(false);\r",
+									"\t\t});\r",
+									"\t}\r",
+									"    \r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"\t});\r",
+									"    \r",
+									"    if(pm.response.to.have.status(201)){\r",
+									"        pm.test(codigoEstado, function () {\r",
+									"\t        pm.response.to.have.status(201);\r",
+									"\t    });\r",
+									"    }else{\r",
+									"        console.error(codigoEstado + pm.response.code);\r",
+									"    }\r",
+									"    \r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"ordersTest\", ordersTest.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": 4,\r\n  \"customerName\": \"Camilo Mamian Becerra\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}",
+							"host": [
+								"{{urlBooks}}{{orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET/orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"getOrdersTests\"))();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var getOrdersTests = () => {\r",
+									"\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"\t\r",
+									"\tlet countOrder = 0;\r",
+									"\tvar librosDisponibles =  \"Ordenes existentes: \";\r",
+									"    var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 6000 ms \";\r",
+									"    var codigoEstado =  \"EL codigo de estado debe ser 200 \";\r",
+									"\t\r",
+									"\twhile (countOrder < jsonData.length) {\r",
+									"\t\tjsonData[countOrder].id;\r",
+									"\t\tcountOrder++; \r",
+									"\t}\r",
+									"    \r",
+									"\tpm.test(librosDisponibles + countOrder, function () {\r",
+									"\t\tpm.expect(jsonData.length).to.be.equal(jsonData.length);\r",
+									"\t});\r",
+									" \r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(6000);\r",
+									"\t});\r",
+									"    \r",
+									"    if(pm.response.to.have.status(200)){\r",
+									"        pm.test(codigoEstado, function () {\r",
+									"\t        pm.response.to.have.status(200);\r",
+									"\t    });\r",
+									"    }else{\r",
+									"        console.error(\"GET 1 30 \" + codigoEstado + pm.response.code);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"getOrdersTests\", getOrdersTests.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}",
+							"host": [
+								"{{urlBooks}}{{orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET/orders/idOrden",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"eval(pm.environment.get(\"getOrdersByOrderId\"))();\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"    \r",
+									"var customerName = jsonData.customerName;\r",
+									"var nombre = \"Camilo Mamian Becerra\"\r",
+									"var nombreUsuario = \"El nombre del usuario debe ser: \" + nombre;\r",
+									"\r",
+									"pm.test(nombreUsuario, function() {\r",
+									"    pm.expect(customerName).to.equal(nombre);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"var getOrdersByOrderId = () => {\r",
+									"\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"\r",
+									"    var idOrdenCreada = \"El id de la orden creada debe ser: \" + pm.environment.get(\"idOrden\");\r",
+									"    var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 6000 ms \";\r",
+									"\r",
+									"\r",
+									"    pm.test(idOrdenCreada, function() {\r",
+									"        pm.expect(jsonData.id).to.equal(pm.environment.get(\"idOrden\"));\r",
+									"    });\r",
+									"\r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(6000);\r",
+									"\t});\r",
+									"\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"getOrdersByOrderId\", getOrdersByOrderId.toString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": 4,\r\n  \"customerName\": \"Camilo Mamian Becerra\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}{{idOrden}}",
+							"host": [
+								"{{urlBooks}}{{orders}}{{idOrden}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/:orderId",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var updateOrdersByOrderId = () => {\r",
+									"\r",
+									"    var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 10000 ms \";\r",
+									"    var codigoEstado =  \"EL codigo de estado debe ser 204 \";\r",
+									"    var errorCodigo = \"El codigo de estado no es el esperado \";\r",
+									"    var idUsearioModificado = \"Orden id del usuario modificado \";\r",
+									"    let idOrden =   pm.environment.get(\"idOrden\");\r",
+									"\r",
+									"    if(pm.response.code === 204){\r",
+									"        pm.test(codigoEstado, function () {\r",
+									"\t        pm.response.to.have.status(204);\r",
+									"\t    });\r",
+									"    }else{\r",
+									"        console.error(\"PATCH 16 \" + errorCodigo + pm.response.code);\r",
+									"    }\r",
+									"\t\r",
+									"\tpm.test(tiempoMaximodeEspera, function () {\r",
+									"\t\tpm.expect(pm.response.responseTime).to.be.below(10000);\r",
+									"\t});\r",
+									"\r",
+									"    pm.test(idUsearioModificado + idOrden, function () {\r",
+									"\t\tpm.expect(idOrden);\r",
+									"\t});\r",
+									"\t\r",
+									"\t}\r",
+									"\r",
+									"pm.environment.set(\"updateOrdersByOrderId\", updateOrdersByOrderId.toString());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"updateOrdersByOrderId\"))();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerName\": \"Carlos Ruiz Lopez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}{{idOrden}}",
+							"host": [
+								"{{urlBooks}}{{orders}}{{idOrden}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET/orders Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"commonTests\"))();\r",
+									"\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"var nombre = \"Carlos Ruiz Lopez\"\r",
+									"var nombreUsuario = \"El nombre del usuario debe ser: \" + nombre;\r",
+									"\r",
+									"if(jsonData.customerName){\r",
+									"pm.test(nombreUsuario, function() {\r",
+									"    pm.expect(jsonData.customerName).to.equal(nombre);\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var idOrden =   pm.environment.get(\"idOrden\");\r",
+									"\r",
+									"var ordenEliminda =  \"La orden con id \" + idOrden + \" no existe, status code 404 \";\r",
+									"var noExisteOnden =  \"EL codigo de estado debe ser 404 \";\r",
+									"var ordenIdEliminda =  \"La orden con id \" + idOrden + \" fue eliminada correctamente, status code 204 \";\r",
+									"var eliminada = \"No order with id \" + idOrden + \".\";\r",
+									"var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 15000 ms \";\r",
+									"\r",
+									"pm.test(tiempoMaximodeEspera, function () {\r",
+									"\tpm.expect(pm.response.responseTime).to.be.below(15000);\r",
+									"});\r",
+									"\r",
+									"let codeResponse = pm.response.code;\r",
+									"\r",
+									"if(codeResponse === 204){\r",
+									"    pm.test(ordenIdEliminda, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(204);\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"if(codeResponse === 404){\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"pm.test(noExisteOnden, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(404);\r",
+									"});\r",
+									"pm.test(ordenEliminda, function() {\r",
+									"    pm.expect(jsonData.error).to.equal(eliminada);\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}{{idOrden}}",
+							"host": [
+								"{{urlBooks}}{{orders}}{{idOrden}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/:orderId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response time is less than 10000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(10000);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.get(\"idOrden\");\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"var idOrden =   pm.environment.get(\"idOrden\");\r",
+									"\r",
+									"var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 15000 ms \";\r",
+									"pm.test(tiempoMaximodeEspera, function () {\r",
+									"\tpm.expect(pm.response.responseTime).to.be.below(15000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 204){\r",
+									"\tvar ordenIdEliminda =  \"La orden con id \" + idOrden + \" fue eliminada correctamente, status code 204 \";\r",
+									"    pm.test(ordenIdEliminda, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(204);\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"\tvar noExisteOnden =  \"EL codigo de estado debe ser 404 \";\r",
+									"pm.test(noExisteOnden, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(404);\r",
+									"});\r",
+									"\r",
+									"var ordenEliminda =  \"La orden con id \" + idOrden + \" no existe, status code 404 \";\r",
+									"var eliminada = \"No order with id \" + idOrden + \".\";\r",
+									"pm.test(ordenEliminda, function() {\r",
+									"    pm.expect(jsonData.error).to.equal(eliminada);\r",
+									"});\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}{{idOrden}}",
+							"host": [
+								"{{urlBooks}}{{orders}}{{idOrden}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET/orders Deletes by orderId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" eval(pm.environment.get(\"commonTests\"))();\r",
+									"\r",
+									"var idOrden =   pm.environment.get(\"idOrden\");\r",
+									"\r",
+									"var ordenEliminda =  \"La orden con id \" + idOrden + \" no existe, status code 404 \";\r",
+									"var noExisteOnden =  \"EL codigo de estado debe ser 404 \";\r",
+									"var ordenIdEliminda =  \"La orden con id \" + idOrden + \" fue eliminada correctamente, status code 204 \";\r",
+									"var eliminada = \"No order with id \" + idOrden + \".\";\r",
+									"var tiempoMaximodeEspera =  \"El tiempo de respuesta debe ser menor a 15000 ms \";\r",
+									"\r",
+									"pm.test(tiempoMaximodeEspera, function () {\r",
+									"\tpm.expect(pm.response.responseTime).to.be.below(15000);\r",
+									"});\r",
+									"\r",
+									"let codeResponse = pm.response.code;\r",
+									"\r",
+									"if(codeResponse === 204){\r",
+									"    pm.test(ordenIdEliminda, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(204);\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"if(codeResponse === 404){\r",
+									"\tconst jsonData = pm.response.json();\r",
+									"pm.test(noExisteOnden, function () {\r",
+									"    pm.expect(pm.response.code).to.be.equal(404);\r",
+									"});\r",
+									"pm.test(ordenEliminda, function() {\r",
+									"    pm.expect(jsonData.error).to.equal(eliminada);\r",
+									"});\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{respuestaRegistrarUsusario}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBooks}}{{orders}}{{idOrden}}",
+							"host": [
+								"{{urlBooks}}{{orders}}{{idOrden}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "errorRe",
+			"value": ""
+		}
+	]
+}

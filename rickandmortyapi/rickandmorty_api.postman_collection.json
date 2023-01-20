@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "2358a96d-9cf5-44f7-8538-17afbf1a8c31",
+		"name": "rickandmorty_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9059660"
+	},
+	"item": [
+		{
+			"name": "/graphql",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  characters(page: 2, filter: { name: \"rick\" }) {\r\n    info {\r\n      count\r\n    }\r\n    results {\r\n      name\r\n    }\r\n  }\r\n  location(id: 1) {\r\n    id\r\n  }\r\n  episodesByIds(ids: [1, 2]) {\r\n    id\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{urlRick}}{{graphql}}",
+					"host": [
+						"{{urlRick}}{{graphql}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches characters as string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"characters\");\r",
+							"});\r",
+							"pm.test(\"Body matches locations as string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"locations\");\r",
+							"});\r",
+							"pm.test(\"Body matches episodes as string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"episodes\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlRick}}{{api}}",
+					"host": [
+						"{{urlRick}}{{api}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/character",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var gender = jsonData.gender;\r",
+							"var name = jsonData.name\r",
+							"\r",
+							"pm.test(\"El genero debe ser = \" + gender , function() {\r",
+							"    pm.expect(jsonData.gender).to.equal(\"Male\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El nombre debe ser = \" + name , function() {\r",
+							"    pm.expect(jsonData.name).to.equal(\"Morty Smith\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlRick}}{{api}}{{character}}{{charter2}}",
+					"host": [
+						"{{urlRick}}{{api}}{{character}}{{charter2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/?page=19",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"var id = jsonData.results[0].id;\r",
+							"var name = jsonData.results[0].name\r",
+							"var idEnd = jsonData.results[0].id;\r",
+							"var nameEnd = jsonData.results[0].name\r",
+							"\r",
+							"pm.test(\"El primer id consultado debe ser = \" + id , function() {\r",
+							"    pm.expect(jsonData.results[0].id).to.equal(361);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El primer nombre consultado debe ser = \" + name , function() {\r",
+							"    pm.expect(jsonData.results[0].name).to.equal(\"Toxic Rick\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El ultimo id consultado debe ser = \" + idEnd , function() {\r",
+							"    pm.expect(jsonData.results[19].id).to.equal(380);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El ultimo nombre consultado debe ser = \" + nameEnd , function() {\r",
+							"    pm.expect(jsonData.results[19].name).to.equal(\"Unknown Rick\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "page",
+						"value": "19",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{urlRick}}{{api}}{{character}}{{page19}}",
+					"host": [
+						"{{urlRick}}{{api}}{{character}}{{page19}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/character 1, 183",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var firstName = jsonData[0].name;\r",
+							"var endName = jsonData[1].name;\r",
+							"\r",
+							"pm.test(\"El nombre del id 1 debe ser = \" + firstName , function() {\r",
+							"    pm.expect(jsonData[0].name).to.equal(\"Rick Sanchez\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El nombre del id 183 debe ser = \" + endName , function() {\r",
+							"    pm.expect(jsonData[1].name).to.equal(\"Johnny Depp\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlRick}}{{api}}{{character}}{{carter1_183}}",
+					"host": [
+						"{{urlRick}}{{api}}{{character}}{{carter1_183}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/character ?name=rick&status=alive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var location = jsonData.results[0].location.name;\r",
+							"var originName = jsonData.results[0].origin.name;\r",
+							"\r",
+							"pm.test(\"El nombre de la localizacion del primer lugar debe ser = \" + location , function() {\r",
+							"    pm.expect(jsonData.results[0].location.name).to.equal(\"Citadel of Ricks\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El origen del primer lugar debe ser = \" + originName , function() {\r",
+							"    pm.expect(jsonData.results[0].origin.name).to.equal(\"Earth (C-137)\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{urlRick}}{{api}}{{character}}{{nameStatus}}",
+					"host": [
+						"{{urlRick}}{{api}}{{character}}{{nameStatus}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "urlRick",
+			"value": "https://rickandmortyapi.com"
+		},
+		{
+			"key": "graphql",
+			"value": "/graphql"
+		},
+		{
+			"key": "api",
+			"value": "/api"
+		},
+		{
+			"key": "character",
+			"value": "/character"
+		},
+		{
+			"key": "page19",
+			"value": "?page=19"
+		},
+		{
+			"key": "charter2",
+			"value": "/2"
+		},
+		{
+			"key": "carter1_183",
+			"value": "/1,183"
+		},
+		{
+			"key": "nameStatus",
+			"value": "?name=rick&status=alive"
+		}
+	]
+}
